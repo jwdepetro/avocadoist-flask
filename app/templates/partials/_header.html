@@ -1,3 +1,15 @@
 <div class="jumbotron">
-    <h1 class="display-4">The Avocadoist</h1>
+    <div class="d-flex justify-content-between">
+        <h1 class="display-4">The Avocadoist</h1>
+        {% if not current_user.is_anonymous %}
+            <div class="text-right">
+                <p>
+                    <a href="{{ url_for('post') }}">Post</a>
+                </p>
+                <p>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </p>
+            </div>
+        {% endif %}
+    </div>
 </div>
