@@ -1,6 +1,23 @@
 {% extends "index.html" %}
 {% block content %}
-<h1 class="lead">
-    You are home
-</h1>
+    <div class="jumbotron">
+        <h1 class="display-4">The Avocadoist</h1>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                {% for post in posts %}
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <h2 class="card-title">{{ post.title }}</h2>
+                                <small>{{ post.timestamp }}</small>
+                            </div>
+                            <p>{{ post.body }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

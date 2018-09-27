@@ -2,15 +2,17 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user
 from werkzeug.urls import url_parse
 
-from app import app
-from app.forms import LoginForm
-from app.models import User
+from app import app, db
+from app.forms import LoginForm, PostForm
+from app.models import User, Post
 
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('home.html')
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.order_by(Post.timestamp.desc()).paginate(page, 50, False)
+    return render_template('home.html', posts=posts.items)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -35,3 +37,18 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+
+@app.route('/post', methods=['GET', 'POST'])
+def post():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(
+            title=form.title.data,
+            body=form.body.data
+        )
+        db.session.add(post)
+        db.session.commit()
+        flash('Posted!')
+        return redirect(url_for('index'))
+    return render_template('post.html', form=form, title='Post')
