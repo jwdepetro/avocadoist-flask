@@ -1,21 +1,13 @@
 {% extends "index.html" %}
 {% block content %}
-    <div class="jumbotron">
-        <h1 class="display-4">The Avocadoist</h1>
-    </div>
+
+    {% include "partials/_header.html" %}
+
     <div class="container">
         <div class="row">
             <div class="col">
                 {% for post in posts %}
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <h2 class="card-title">{{ post.title }}</h2>
-                                <small>{{ moment(post.timestamp).format('LLL') }}</small>
-                            </div>
-                            <p>{{ post.body }}</p>
-                        </div>
-                    </div>
+                    {% include "partials/_post.html" %}
                 {% endfor %}
             </div>
         </div>
