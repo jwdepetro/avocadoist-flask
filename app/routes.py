@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 
-from app import app, db
+from app import app, db, photos
 from app.forms import LoginForm, PostForm
 from app.models import User, Post
 
@@ -48,6 +48,10 @@ def post():
             title=form.title.data,
             body=form.body.data
         )
+        if request.files.get('image'):
+            filename = photos.save(request.files.get('image'))
+            image_url = photos.url(filename)
+            post.image_url = image_url
         db.session.add(post)
         db.session.commit()
         flash('Posted!')
@@ -61,6 +65,10 @@ def edit_post(id):
     post = Post.query.filter_by(id=id).first_or_404()
     form = PostForm()
     if form.validate_on_submit():
+        if request.files.get('image'):
+            filename = photos.save(request.files.get('image'))
+            image_url = photos.url(filename)
+            post.image_url = image_url
         post.title = form.title.data
         post.body = form.body.data
         db.session.commit()
@@ -69,4 +77,4 @@ def edit_post(id):
     elif request.method == 'GET':
         form.title.data = post.title
         form.body.data = post.body
-    return render_template('post.html', form=form)
+    return render_template('post.html', form=form, image_url=post.image_url)
