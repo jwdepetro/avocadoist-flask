@@ -1,5 +1,8 @@
+import uuid
+
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
+from werkzeug.datastructures import FileStorage
 from werkzeug.urls import url_parse
 
 from app import app, db, photos
@@ -49,7 +52,8 @@ def post():
             body=form.body.data
         )
         if request.files.get('image'):
-            filename = photos.save(request.files.get('image'))
+            fs = FileStorage(request.files.get('image'), uuid.uuid4().__str__() + '.png')
+            filename = photos.save(fs)
             image_url = photos.url(filename)
             post.image_url = image_url
         db.session.add(post)
