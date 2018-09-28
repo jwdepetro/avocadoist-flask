@@ -53,3 +53,20 @@ def post():
         flash('Posted!')
         return redirect(url_for('index'))
     return render_template('post.html', form=form, title='Post')
+
+
+@app.route('/post/<id>', methods=['GET', 'POST'])
+@login_required
+def edit_post(id):
+    post = Post.query.filter_by(id=id).first_or_404()
+    form = PostForm()
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.body = form.body.data
+        db.session.commit()
+        flash('Post has been updated!')
+        return redirect(url_for('index'))
+    elif request.method == 'GET':
+        form.title.data = post.title
+        form.body.data = post.body
+    return render_template('post.html', form=form)

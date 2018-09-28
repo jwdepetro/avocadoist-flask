@@ -2,7 +2,14 @@
     <div class="card-body">
         <div class="d-flex justify-content-between">
             <h2 class="card-title">{{ post.title }}</h2>
-            <small>{{ moment(post.timestamp).format('LLL') }}</small>
+            <small>
+                {% if not current_user.is_anonymous %}
+                    <a href="{{ url_for('edit_post', id=post.id) }}">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                {% endif %}
+                {{ moment(post.timestamp).format('LLL') }}
+            </small>
         </div>
         <p>{{ post.body }}</p>
     </div>
