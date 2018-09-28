@@ -10,7 +10,9 @@
     <div class="container d-flex justify-content-center">
         <div class="row">
             <span class="text-muted">&copy; 2018 Jimmy DePetro</span> &nbsp;
-            <a href="{{ url_for('login') }}">Login</a>
+            {% if current_user.is_anonymous %}
+                <a href="{{ url_for('login') }}">Login</a>
+            {% endif %}
         </div>
     </div>
 </footer>
