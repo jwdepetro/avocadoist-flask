@@ -77,7 +77,7 @@ def edit_post(id):
         post.body = form.body.data
         db.session.commit()
         flash('Post has been updated!')
-        return redirect(url_for('index'))
+        return redirect(url_for('index', _anchor='p' + str(post.id)))
     elif request.method == 'GET':
         form.title.data = post.title
         form.body.data = post.body
