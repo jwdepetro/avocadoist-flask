@@ -81,4 +81,13 @@ def edit_post(id):
     elif request.method == 'GET':
         form.title.data = post.title
         form.body.data = post.body
-    return render_template('post.html', form=form, image_url=post.image_url)
+    return render_template('post.html', form=form, image_url=post.image_url, id=id)
+
+
+@app.route('/post/<id>/delete')
+@login_required
+def delete_post(id):
+    post = Post.query.filter_by(id=id).first_or_404()
+    db.session.delete(post)
+    db.session.commit()
+    return redirect('index')
