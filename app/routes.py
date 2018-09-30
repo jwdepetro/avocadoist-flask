@@ -49,7 +49,8 @@ def post():
     if form.validate_on_submit():
         post = Post(
             title=form.title.data,
-            body=form.body.data
+            body=form.body.data,
+            author=current_user
         )
         if request.files.get('image'):
             fs = FileStorage(request.files.get('image'), uuid.uuid4().__str__() + '.png')
