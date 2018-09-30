@@ -29,7 +29,7 @@
                     {% endfor %}
                 </div>
                 <div class="row">
-                    {% if id %}
+                    {% if post and post.id %}
                     <div class="col-12 col-md-6">
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-danger btn-block" data-toggle="modal"
@@ -48,16 +48,16 @@
                 </div>
             </form>
         </div>
-        {% if image_url %}
+        {% if post and post.image_url() %}
         <div class="col-12 col-md-4 d-flex align-items-center">
-            <img class="img-fluid" src="{{image_url}}">
+            <img class="img-fluid" src="{{post.image_url()}}">
         </div>
         {% endif %}
     </div>
 </div>
 
 <!-- Modal -->
-{% if id %}
+{% if post and post.id %}
 <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -66,7 +66,7 @@
             </div>
             <div class="modal-footer" style="border:none; color:white;">
                 <a class="m-1 btn btn-block btn-secondary" data-dismiss="modal">Cancel</a>
-                <a class="m-1 btn btn-block btn-danger" href="{{url_for('delete_post', id=id)}}">Delete</a>
+                <a class="m-1 btn btn-block btn-danger" href="{{url_for('delete_post', id=post.id)}}">Delete</a>
             </div>
         </div>
     </div>

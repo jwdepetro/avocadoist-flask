@@ -1,6 +1,6 @@
 <div class="card my-2" id="p{{ post.id }}">
-    {% if post.image_url %}
-    <img class="card-img-top" src="{{ post.image_url }}">
+    {% if post.image_url() %}
+    <img class="card-img-top" src="{{ post.image_url() }}">
     {% endif %}
     <div class="card-body">
         <div class="d-flex justify-content-between">

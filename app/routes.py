@@ -1,11 +1,8 @@
-import uuid
-
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
-from werkzeug.datastructures import FileStorage
 from werkzeug.urls import url_parse
 
-from app import app, db, photos
+from app import app, db
 from app.forms import LoginForm, PostForm
 from app.models import User, Post
 
@@ -53,10 +50,7 @@ def post():
             author=current_user
         )
         if request.files.get('image'):
-            fs = FileStorage(request.files.get('image'), uuid.uuid4().__str__() + '.png')
-            filename = photos.save(fs)
-            image_url = photos.url(filename)
-            post.image_url = image_url
+            post.save_image(request.files.get('image'))
         db.session.add(post)
         db.session.commit()
         flash('Posted!')
@@ -71,9 +65,7 @@ def edit_post(id):
     form = PostForm()
     if form.validate_on_submit():
         if request.files.get('image'):
-            filename = photos.save(request.files.get('image'))
-            image_url = photos.url(filename)
-            post.image_url = image_url
+            post.save_image(request.files.get('image'))
         post.title = form.title.data
         post.body = form.body.data
         db.session.commit()
@@ -82,13 +74,14 @@ def edit_post(id):
     elif request.method == 'GET':
         form.title.data = post.title
         form.body.data = post.body
-    return render_template('post.html', form=form, image_url=post.image_url, id=id)
+    return render_template('post.html', form=form, post=post)
 
 
 @app.route('/post/<id>/delete')
 @login_required
 def delete_post(id):
     post = Post.query.filter_by(id=id).first_or_404()
+    post.delete_image()
     db.session.delete(post)
     db.session.commit()
     return redirect('index')
