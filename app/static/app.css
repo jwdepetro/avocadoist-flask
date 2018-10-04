@@ -1,3 +1,19 @@
 /* 
  * Define custom styling here
  */
+ 
+ body
+ {
+    font-family: 'Montserrat', sans-serif;
+ }
+
+ .app-title
+ {
+    font-family: 'Amatic SC', cursive;
+    font-size: 6rem;
+ }
+
+ .jumbotron
+ {
+    padding: 2rem 1rem;
+ }
