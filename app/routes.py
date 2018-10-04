@@ -3,7 +3,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 
 from app import app, db
-from app.forms import LoginForm, PostForm
+from app.forms import LoginForm, PostForm, UserForm
 from app.models import User, Post
 
 
@@ -37,6 +37,21 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+@app.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
+    form = UserForm()
+    if form.validate_on_submit():
+        current_user.name = form.name.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Profile has been updated!')
+        return redirect(url_for('index'))
+    elif request.method == 'GET':
+        form.name.data = current_user.name
+        form.email.data = current_user.email
+    return render_template('profile.html', form=form, title='Profile')
 
 
 @app.route('/post', methods=['GET', 'POST'])

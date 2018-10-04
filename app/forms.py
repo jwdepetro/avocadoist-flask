@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, FileField
-from wtforms.validators import DataRequired, Email
+from wtforms.validators import DataRequired, Email, EqualTo
 
 from app import photos
 
@@ -18,3 +18,10 @@ class PostForm(FlaskForm):
     body = TextAreaField('Body', validators=[DataRequired()])
     image = FileField(validators=[FileAllowed(photos, u'Image only!')])
     submit = SubmitField('Post')
+
+class UserForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password')
+    confirm_password = PasswordField('Confirm Password', validators=[EqualTo('password', message='Passwords do not match')])
+    submit = SubmitField('Update')
