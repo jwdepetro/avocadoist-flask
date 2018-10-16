@@ -19,6 +19,7 @@ class PostForm(FlaskForm):
     image = FileField(validators=[FileAllowed(photos, u'Image only!')])
     submit = SubmitField('Post')
 
+
 class UserForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])

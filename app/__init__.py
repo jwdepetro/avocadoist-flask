@@ -4,7 +4,6 @@ from flask_migrate import Migrate
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
-
 from config import Config
 
 app = Flask(__name__)
