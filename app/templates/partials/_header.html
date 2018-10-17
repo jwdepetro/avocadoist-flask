@@ -1,17 +1,19 @@
-{% if not current_user.is_anonymous %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="{{ url_for('index') }}">Welcome {{current_user.name}}</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-        aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="header">
+    <a class="navbar-brand" href="{{ url_for('index') }}" id="header-title">
+        <!-- Welcome {{current_user.name}} -->
+        The Avocadoist
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+        aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
+    {% if not current_user.is_anonymous %}
     <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto">
+        <div class="mr-auto"></div>
+        <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('post') }}">Post</a>
             </li>
-        </ul>
-        <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
             </li>
@@ -20,5 +22,19 @@
             </li>
         </ul>
     </div>
+    {% endif %}
 </nav>
-{% endif %}
+
+<script>
+    window.onscroll = function () { scrollFunction() };
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+            document.getElementById("header").style.padding = "1rem";
+            document.getElementById("header-title").style.fontSize = "2rem";
+        } else {
+            document.getElementById("header").style.padding = "1.5rem";
+            document.getElementById("header-title").style.fontSize = "5rem";
+        }
+    }
+</script>

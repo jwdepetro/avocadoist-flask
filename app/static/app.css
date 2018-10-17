@@ -13,7 +13,19 @@
     font-size: 6rem;
  }
 
- .jumbotron
+ #header
  {
-    padding: 2rem 1rem;
+    padding: 1.5rem;
+ }
+
+ #header-title
+ {
+    font-family: 'Amatic SC', cursive;
+    font-size: 5rem;
+    transition: 0.2s;
+ }
+
+ #main
+ {
+     margin-top: 13rem;
  }
