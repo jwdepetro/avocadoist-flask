@@ -1,9 +1,10 @@
 <footer class="footer sticky-bottom d-flex align-items-center" id="footer">
     <div class="container d-flex justify-content-center">
         <div class="row">
-            <span class="text-muted">&copy; {{moment().format('Y')}} Jimmy DePetro</span> &nbsp;
+            <a class="footer-link" href="mailto:jwdepetro@gmail.com">&copy; {{ moment().format('Y') }} Jimmy DePetro</a> &nbsp;
             {% if current_user.is_anonymous %}
-            <a href="{{ url_for('login') }}">Login</a>
+                &nbsp;| &nbsp;
+                <a class="footer-link" href="{{ url_for('login') }}">Login</a>
             {% endif %}
         </div>
     </div>
