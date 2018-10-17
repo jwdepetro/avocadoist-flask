@@ -1,61 +1,59 @@
 /* 
  * Define custom styling here
  */
- 
- body
- {
+
+body {
     font-family: 'Montserrat', sans-serif;
     background-color: #e1e8ee;
- }
+    background-image: url("mountains.png");
+    background-repeat: repeat-x;
+    background-attachment: fixed;
+    background-position: bottom;
+    padding: 0;
+    margin: 0;
+    /*background-size: 100% auto;*/
+}
 
- .app-title
- {
+.app-title {
     font-family: 'Amatic SC', cursive;
     font-size: 6rem;
- }
+}
 
- #header
- {
+#header {
     padding: 1.5rem;
     background-color: #6c4d6f !important;
-    -webkit-box-shadow: 0px 0px 9px 3px rgba(41,41,41,.25);
-    -moz-box-shadow: 0px 0px 9px 3px rgba(41,41,41,.25);
-    box-shadow: 0px 0px 9px 3px rgba(41,41,41,.25);
- }
+    -webkit-box-shadow: 0px 0px 9px 3px rgba(41, 41, 41, .25);
+    -moz-box-shadow: 0px 0px 9px 3px rgba(41, 41, 41, .25);
+    box-shadow: 0px 0px 9px 3px rgba(41, 41, 41, .25);
+}
 
- #header-title
- {
+#header-title {
     font-family: 'Amatic SC', cursive;
     font-size: 5rem;
     transition: 0.2s;
     color: #e1e8ee;
- }
+}
 
- .header-link
- {
-     color: #e1e8ee;
- }
+.header-link {
+    color: #e1e8ee;
+}
 
- #main
- {
-     margin-top: 13rem;
- }
+#main {
+    margin-top: 13rem;
+}
 
- #footer
- {
+#footer {
     width: 100%;
     height: 60px;
     font-size: .5rem;
- }
+}
 
- .btn-primary
- {
-     color: #e1e8ee;
-     background-color: #9fb199;
-     border-color: #9fb199;
- }
+.btn-primary {
+    color: #e1e8ee;
+    background-color: #9fb199;
+    border-color: #9fb199;
+}
 
- .edit-post
- {
-     color: #9fb199;
- }
+.edit-post {
+    color: #9fb199;
+}

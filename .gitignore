@@ -17,3 +17,5 @@ build/
 .vscode/
 
 app.db
+
+.DS_Store
