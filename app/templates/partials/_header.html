@@ -1,24 +1,23 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="header">
+<nav class="navbar navbar-expand-lg fixed-top" id="header">
     <a class="navbar-brand" href="{{ url_for('index') }}" id="header-title">
-        <!-- Welcome {{current_user.name}} -->
         The Avocadoist
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
         aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+        <i class="fas fa-bars header-link"></i>
     </button>
     {% if not current_user.is_anonymous %}
     <div class="collapse navbar-collapse" id="navbarNav">
         <div class="mr-auto"></div>
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('post') }}">Post</a>
+                <a class="nav-link header-link" href="{{ url_for('post') }}">Post</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
+                <a class="nav-link header-link" href="{{ url_for('profile') }}">Profile</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                <a class="nav-link header-link" href="{{ url_for('logout') }}">Logout</a>
             </li>
         </ul>
     </div>

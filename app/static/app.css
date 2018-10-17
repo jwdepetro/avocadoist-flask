@@ -5,6 +5,7 @@
  body
  {
     font-family: 'Montserrat', sans-serif;
+    background-color: #e1e8ee;
  }
 
  .app-title
@@ -16,6 +17,10 @@
  #header
  {
     padding: 1.5rem;
+    background-color: #6c4d6f !important;
+    -webkit-box-shadow: 0px 0px 9px 3px rgba(41,41,41,.25);
+    -moz-box-shadow: 0px 0px 9px 3px rgba(41,41,41,.25);
+    box-shadow: 0px 0px 9px 3px rgba(41,41,41,.25);
  }
 
  #header-title
@@ -23,6 +28,12 @@
     font-family: 'Amatic SC', cursive;
     font-size: 5rem;
     transition: 0.2s;
+    color: #e1e8ee;
+ }
+
+ .header-link
+ {
+     color: #e1e8ee;
  }
 
  #main
@@ -35,4 +46,16 @@
     width: 100%;
     height: 60px;
     font-size: .5rem;
+ }
+
+ .btn-primary
+ {
+     color: #e1e8ee;
+     background-color: #9fb199;
+     border-color: #9fb199;
+ }
+
+ .edit-post
+ {
+     color: #9fb199;
  }
