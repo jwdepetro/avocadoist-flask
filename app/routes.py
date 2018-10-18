@@ -5,6 +5,12 @@ from app import app, db
 from app.forms import LoginForm, PostForm, UserForm
 from app.models import User, Post
 
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return redirect(url_for('index'))
+
+
 @app.route('/')
 def index():
     page = request.args.get('page', 1, type=int)
