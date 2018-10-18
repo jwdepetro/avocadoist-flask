@@ -25,4 +25,5 @@ class UserForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password')
     confirm_password = PasswordField('Confirm Password', validators=[EqualTo('password', message='Passwords do not match')])
+    image = FileField(validators=[FileAllowed(photos, u'Images only!')])
     submit = SubmitField('Update')

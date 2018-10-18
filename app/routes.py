@@ -46,6 +46,9 @@ def profile():
     if form.validate_on_submit():
         current_user.name = form.name.data
         current_user.email = form.email.data
+        image = request.files.get('image')
+        if image:
+            current_user.save_image(image)
         db.session.commit()
         flash('Profile has been updated!')
         return redirect(url_for('index'))

@@ -63,6 +63,13 @@ body
     border-color: #9fb199;
 }
 
+.btn-primary:hover
+{
+    color: #e1e8ee;
+    background-color: #7a8875;
+    border-color: #7a8875;
+}
+
 .edit-post
 {
     color: #9fb199;

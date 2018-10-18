@@ -18,6 +18,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(64))
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
+    image_name = db.Column(db.String(120))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
 
     def __repr__(self):
@@ -28,6 +29,26 @@ class User(UserMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def image_url(self):
+        if self.image_name:
+            return photos.url(self.image_name)
+        else:
+            return None
+
+    def save_image(self, image):
+        if self.image_name:
+            self.delete_image()
+        name = hashlib.md5(
+            ('user' + str(time.time())).encode('utf-8')).hexdigest()[:15] + '.png'
+        photos.save(image, name=name)
+        self.image_name = name
+
+    def delete_image(self):
+        if self.image_name:
+            file_path = photos.path(self.image_name)
+            os.remove(file_path)
+            self.image_name = None
 
 
 class Post(db.Model):
@@ -46,7 +67,6 @@ class Post(db.Model):
             name = hashlib.md5(
                 ('post' + str(time.time())).encode('utf-8')).hexdigest()[:15] + '.png'
             photos.save(image, name=name)
-            self.image_name = name
             i = PostImage(post=self, name=name)
             db.session.add(i)
             self.images.append(i)
