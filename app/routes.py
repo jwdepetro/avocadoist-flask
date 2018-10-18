@@ -46,6 +46,7 @@ def profile():
     if form.validate_on_submit():
         current_user.name = form.name.data
         current_user.email = form.email.data
+        current_user.about = form.about.data
         image = request.files.get('image')
         if image:
             current_user.save_image(image)
@@ -55,6 +56,7 @@ def profile():
     elif request.method == 'GET':
         form.name.data = current_user.name
         form.email.data = current_user.email
+        form.about.data = current_user.about
     return render_template('profile.html', form=form, title='Profile')
 
 

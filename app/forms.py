@@ -22,6 +22,7 @@ class PostForm(FlaskForm):
 
 class UserForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
+    about = TextAreaField('About')
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password')
     confirm_password = PasswordField('Confirm Password', validators=[EqualTo('password', message='Passwords do not match')])
