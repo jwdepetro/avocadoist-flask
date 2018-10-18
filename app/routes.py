@@ -5,9 +5,7 @@ from app import app, db
 from app.forms import LoginForm, PostForm, UserForm
 from app.models import User, Post
 
-
 @app.route('/')
-@app.route('/index')
 def index():
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(
