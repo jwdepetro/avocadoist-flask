@@ -38,6 +38,9 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     images = db.relationship('PostImage', backref='post', lazy='dynamic')
 
+    def __repr__(self):
+        return '<Post {}>'.format(self.title)
+
     def save_images(self, images):
         for image in images:
             name = hashlib.md5(
@@ -53,6 +56,8 @@ class Post(db.Model):
             for image in self.images:
                 file_path = photos.path(image.name)
                 os.remove(file_path)
+                db.session.delete(image)
+                db.session.commit()
 
 
 class PostImage(db.Model):
@@ -68,7 +73,3 @@ class PostImage(db.Model):
             return photos.url(self.name)
         else:
             return None
-
-
-def __repr__(self):
-    return '<Post {}>'.format(self.title)

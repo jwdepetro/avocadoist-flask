@@ -81,8 +81,10 @@ def edit_post(id):
     post = Post.query.filter_by(id=id).first_or_404()
     form = PostForm()
     if form.validate_on_submit():
-        if request.files.get('image'):
-            post.save_image(request.files.get('image'))
+        images = request.files.getlist('images')
+        if images:
+            post.delete_images()
+            post.save_images(images)
         post.title = form.title.data
         post.body = form.body.data
         db.session.commit()
