@@ -1,7 +1,5 @@
 <div class="card my-4" id="p{{ post.id }}">
-    {% if post.image_url() %}
-    <img class="card-img-top" src="{{ post.image_url() }}">
-    {% endif %}
+    {% include 'partials/_images.html' %}
     <div class="card-body">
         <div class="row justify-content-between align-items-center">
             <div class="col-12 col-md-6">

@@ -15,9 +15,9 @@
                     {% endfor %}
                 </div>
                 <div class="form-group">
-                    {{ form.image.label }}
-                    {{ form.image(class="form-control-file") }}
-                    {% for error in form.image.errors %}
+                    {{ form.images.label }}
+                    {{ form.images(class="form-control-file", multiple="") }}
+                    {% for error in form.images.errors %}
                     <span>{{ error }}</span>
                     {% endfor %}
                 </div>
@@ -32,8 +32,7 @@
                     {% if post and post.id %}
                     <div class="col-12 col-md-6">
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-danger btn-block" data-toggle="modal"
-                                data-target="#delete-modal">
+                        <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#delete-modal">
                             Delete
                         </button>
                     </div>
@@ -48,9 +47,9 @@
                 </div>
             </form>
         </div>
-        {% if post and post.image_url() %}
+        {% if post and post.images %}
         <div class="col-12 col-md-4 d-flex align-items-center">
-            <img class="img-fluid" src="{{post.image_url()}}">
+            {% include 'partials/_images.html' %}
         </div>
         {% endif %}
     </div>

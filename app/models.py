@@ -4,6 +4,7 @@ import time
 from datetime import datetime
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.datastructures import FileStorage
 from app import db, login, photos
 
 
@@ -33,25 +34,40 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120))
     body = db.Column(db.String(360))
-    image_name = db.Column(db.String(120))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    images = db.relationship('PostImage', backref='post', lazy='dynamic')
 
-    def image_url(self):
-        if self.image_name:
-            return photos.url(self.image_name)
+    def save_images(self, images):
+        for image in images:
+            name = hashlib.md5(
+                ('post' + str(time.time())).encode('utf-8')).hexdigest()[:15] + '.png'
+            photos.save(image, name=name)
+            self.image_name = name
+            i = PostImage(post=self, name=name)
+            db.session.add(i)
+            self.images.append(i)
+
+    def delete_images(self):
+        if self.images:
+            for image in self.images:
+                file_path = photos.path(image.name)
+                os.remove(file_path)
+
+
+class PostImage(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+    name = db.Column(db.String(120))
+
+    def __repr__(self):
+        return '<Image {}>'.format(self.name)
+
+    def url(self):
+        if self.name:
+            return photos.url(self.name)
         else:
             return None
-
-    def save_image(self, image):
-        name = hashlib.md5(('admin' + str(time.time())).encode('utf-8')).hexdigest()[:15] + '.png'
-        photos.save(image, name=name)
-        self.image_name = name
-
-    def delete_image(self):
-        if self.image_name:
-            file_path = photos.path(self.image_name)
-            os.remove(file_path)
 
 
 def __repr__(self):

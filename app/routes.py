@@ -10,7 +10,8 @@ from app.models import User, Post
 @app.route('/index')
 def index():
     page = request.args.get('page', 1, type=int)
-    posts = Post.query.order_by(Post.timestamp.desc()).paginate(page, 50, False)
+    posts = Post.query.order_by(
+        Post.timestamp.desc()).paginate(page, 50, False)
     return render_template('home.html', posts=posts.items)
 
 
@@ -64,8 +65,9 @@ def post():
             body=form.body.data,
             author=current_user
         )
-        if request.files.get('image'):
-            post.save_image(request.files.get('image'))
+        images = request.files.getlist('images')
+        if images:
+            post.save_images(images)
         db.session.add(post)
         db.session.commit()
         flash('Posted!')
@@ -96,7 +98,7 @@ def edit_post(id):
 @login_required
 def delete_post(id):
     post = Post.query.filter_by(id=id).first_or_404()
-    post.delete_image()
+    post.delete_images()
     db.session.delete(post)
     db.session.commit()
     return redirect('index')
