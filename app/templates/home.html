@@ -9,6 +9,24 @@
             {% endfor %}
         </div>
     </div>
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-between">
+            <li class="page-item">
+                {% if prev_url %}
+                <a class="btn btn-primary" href="{{prev_url}}" tabindex="-1">
+                    <i class="fas fa-angle-double-left"></i>
+                </a>
+                {% endif %}
+            </li>
+            <li class="page-item">
+                {% if next_url %}
+                <a class="btn btn-primary" href="{{next_url}}">
+                    <i class="fas fa-angle-double-right"></i>
+                </a>
+                {% endif %}
+            </li>
+        </ul>
+    </nav>
 </div>
 
 {% endblock %}
