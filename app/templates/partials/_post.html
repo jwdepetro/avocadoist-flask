@@ -11,6 +11,13 @@
                 </small>
             </div>
         </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                {% for pt in post.post_tags %}
+                <span class="post-tag">{{pt.tag.name}}</span>
+                {% endfor %}
+            </div>
+        </div>
         <p style="white-space: pre-wrap;">{{ post.body }}</p>
         {% if current_user == post.author %}
         <div class="row">

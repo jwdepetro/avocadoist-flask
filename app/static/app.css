@@ -2,8 +2,7 @@
  * Define custom styling here
  */
 
-body
-{
+body {
     font-family: 'Montserrat', sans-serif;
     background-color: #e1e8ee;
     background-image: url("mountains.png");
@@ -12,42 +11,31 @@ body
     background-position: bottom;
 }
 
-button:focus
-{
+button:focus {
     outline: none;
 }
 
-.app-title
-{
+.app-title {
     font-family: 'Amatic SC', cursive;
     font-size: 6rem;
 }
 
-@media only screen and (max-width: 575.99px)
-{
-    #header-title,
-    .header-small
-    {
+@media only screen and (max-width: 575.99px) {
+    #header-title, .header-small {
         font-size: 2rem;
     }
 }
 
-@media only screen and (min-width: 576px)
-{
-    #header-title
-    {
+@media only screen and (min-width: 576px) {
+    #header-title {
         font-size: 5rem;
     }
-
-    .header-small
-    {
+    .header-small {
         font-size: 2rem !important;
     }
 }
 
-
-#header
-{
+#header {
     padding: 1.5rem;
     background-color: #6c4d6f !important;
     -webkit-box-shadow: 0px 0px 9px 3px rgba(41, 41, 41, .25);
@@ -55,55 +43,52 @@ button:focus
     box-shadow: 0px 0px 9px 3px rgba(41, 41, 41, .25);
 }
 
-#header-title
-{
+#header-title {
     font-family: 'Amatic SC', cursive;
     /* font-size: 5rem; */
     transition: 0.2s;
     color: #e1e8ee;
 }
 
-.header-link,
-.footer-link,
-.header-link:hover,
-.footer-link:hover
-{
+.header-link, .footer-link, .header-link:hover, .footer-link:hover {
     color: #e1e8ee;
 }
 
-#main
-{
+#main {
     margin-top: 13rem;
 }
 
-#footer
-{
+#footer {
     width: 100%;
     height: 60px;
     font-size: .5rem;
     color: #e1e8ee;
 }
 
-.btn-primary
-{
+.btn-primary {
     color: #e1e8ee;
     background-color: #9fb199;
     border-color: #9fb199;
 }
 
-.btn-primary:hover
-{
+.btn-primary:hover {
     color: #e1e8ee;
     background-color: #7a8875;
     border-color: #7a8875;
 }
 
-.edit-post
-{
+.edit-post {
     color: #9fb199;
 }
 
-.card
-{
+.card {
     border: none;
+}
+
+.post-tag {
+    color: #e1e8ee;
+    background-color: #9fb199;
+    border-color: #9fb199;
+    border-radius: 2px;
+    padding: 5px;
 }

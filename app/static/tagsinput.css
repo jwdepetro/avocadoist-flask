@@ -1,0 +1,51 @@
+  .bootstrap-tagsinput input {
+    display: block;
+    width: 100%;
+    height: calc(2.25rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    margin-top: 15px;
+  }
+
+  .bootstrap-tagsinput.form-control input::-moz-placeholder {
+    color: #777;
+    opacity: 1;
+  }
+
+  .bootstrap-tagsinput.form-control input:-ms-input-placeholder {
+    color: #777;
+  }
+
+  .bootstrap-tagsinput.form-control input::-webkit-input-placeholder {
+    color: #777;
+  }
+
+  .bootstrap-tagsinput input:focus {
+    border: none;
+    box-shadow: none;
+  }
+
+  .bootstrap-tagsinput .tag {
+    margin-right: 2px;
+    color: #e1e8ee;
+    background-color: #7a8875;
+    border-color: #7a8875;
+    border-radius: 2px;
+    padding: 10px;
+  }
+
+  .bootstrap-tagsinput .tag [data-role="remove"] {
+    margin-left: 8px;
+    cursor: pointer;
+  }
+
+  .bootstrap-tagsinput .tag [data-role="remove"]:after {
+    content: "x";
+  }

@@ -1,9 +1,9 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, FileField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, FileField, SelectMultipleField
 from wtforms.validators import DataRequired, Email, EqualTo
-
 from app import photos
+from app.models import Tag
 
 
 class LoginForm(FlaskForm):
@@ -17,6 +17,7 @@ class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     body = TextAreaField('Body', validators=[DataRequired()])
     images = FileField(validators=[FileAllowed(photos, u'Images only!')])
+    tags = StringField('Tags')
     submit = SubmitField('Post')
 
 

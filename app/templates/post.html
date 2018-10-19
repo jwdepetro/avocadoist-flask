@@ -18,6 +18,13 @@
                     {% endfor %}
                 </div>
                 <div class="form-group">
+                        {{ form.tags.label }}
+                        {{ form.tags(class="form-control", **{'data-role': 'tagsinput'}) }}
+                        {% for error in form.tags.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                <div class="form-group">
                     {{ form.images.label }}
                     {{ form.images(class="form-control-file", multiple="") }}
                     {% for error in form.images.errors %}

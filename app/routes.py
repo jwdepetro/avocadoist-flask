@@ -3,7 +3,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from app import app, db
 from app.forms import LoginForm, PostForm, UserForm
-from app.models import User, Post
+from app.models import User, Post, Tag, PostTag
 
 
 @app.errorhandler(404)
@@ -16,8 +16,10 @@ def index():
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(
         Post.timestamp.desc()).paginate(page, 50, False)
-    next_url = url_for('index', page=posts.next_num) if posts.has_next else None
-    prev_url = url_for('index', page=posts.prev_num) if posts.has_prev else None
+    next_url = url_for(
+        'index', page=posts.next_num) if posts.has_next else None
+    prev_url = url_for(
+        'index', page=posts.prev_num) if posts.has_prev else None
     return render_template('home.html', posts=posts.items, next_url=next_url, prev_url=prev_url)
 
 
@@ -76,6 +78,7 @@ def profile():
 @login_required
 def post():
     form = PostForm()
+    print(form.tags.data)
     if form.validate_on_submit():
         post = Post(
             title=form.title.data,
@@ -85,6 +88,9 @@ def post():
         images = request.files.getlist('images')
         if images:
             post.save_images(images)
+        if form.tags.data:
+            tags = form.tags.data.split(',')
+            post.save_tags(tags)
         db.session.add(post)
         db.session.commit()
         flash('Posted!')
@@ -102,6 +108,9 @@ def edit_post(id):
         if images:
             post.delete_images()
             post.save_images(images)
+        if form.tags.data:
+            tags = form.tags.data.split(',')
+            post.save_tags(tags)
         post.title = form.title.data
         post.body = form.body.data
         db.session.commit()
@@ -118,6 +127,7 @@ def edit_post(id):
 def delete_post(id):
     post = Post.query.filter_by(id=id).first_or_404()
     post.delete_images()
+    post.delete_tags()
     db.session.delete(post)
     db.session.commit()
     return redirect('index')
