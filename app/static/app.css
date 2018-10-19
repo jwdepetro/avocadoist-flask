@@ -12,6 +12,11 @@ body
     background-position: bottom;
 }
 
+button:focus
+{
+    outline: none;
+}
+
 .app-title
 {
     font-family: 'Amatic SC', cursive;
