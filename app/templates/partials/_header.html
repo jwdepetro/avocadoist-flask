@@ -2,7 +2,6 @@
     <a class="navbar-brand" href="{{ url_for('index') }}" id="header-title">
         The Avocadoist
     </a>
-    {% if not current_user.is_anonymous %}
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
         aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-bars header-link"></i>
@@ -11,17 +10,34 @@
         <div class="mr-auto"></div>
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link header-link" href="{{ url_for('post') }}">Post</a>
+                <a class="nav-link header-link" href="https://www.instagram.com/carlirae__" target="_blank">
+                    <i class="fab fa-instagram"></i>&nbsp;Instagram
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link header-link" href="{{ url_for('profile') }}">Profile</a>
+                <a class="nav-link header-link" href="https://www.linkedin.com/in/carli-auran-7a884834/" target="_blank">
+                    <i class="fab fa-linkedin"></i></i>&nbsp;LinkedIn
+                </a>
+            </li>
+            {% if not current_user.is_anonymous %}
+            <li class="nav-item">
+                <a class="nav-link header-link" href="{{ url_for('post') }}">
+                    <i class="fas fa-newspaper"></i>&nbsp;Post
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link header-link" href="{{ url_for('logout') }}">Logout</a>
+                <a class="nav-link header-link" href="{{ url_for('profile') }}">
+                    <i class="fas fa-user"></i></i>&nbsp;Profile
+                </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link header-link" href="{{ url_for('logout') }}">
+                    <i class="fas fa-power-off"></i>&nbsp;Logout
+                </a>
+            </li>
+            {% endif %}
         </ul>
     </div>
-    {% endif %}
 </nav>
 
 <script>
