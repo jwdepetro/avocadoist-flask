@@ -45,6 +45,12 @@ def logout():
     return redirect(url_for('login'))
 
 
+@app.route('/about-me')
+def about_me():
+    user = User.query.filter_by(default=True).first_or_404()
+    return render_template('about_me.html', user=user)
+
+
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
