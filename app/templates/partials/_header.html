@@ -29,11 +29,9 @@
 
     function scrollFunction() {
         if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-            document.getElementById("header").style.padding = "1rem";
-            document.getElementById("header-title").style.fontSize = "2rem";
+            document.getElementById("header-title").classList.add('header-small')
         } else {
-            document.getElementById("header").style.padding = "1.5rem";
-            document.getElementById("header-title").style.fontSize = "5rem";
+            document.getElementById("header-title").classList.remove('header-small')
         }
     }
 </script>
