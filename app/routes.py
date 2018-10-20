@@ -3,7 +3,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from app import app, db
 from app.forms import LoginForm, PostForm, UserForm
-from app.models import User, Post, Tag
+from app.models import User, Post, Tag, post_tags
 
 
 @app.errorhandler(404)
@@ -24,7 +24,15 @@ def index():
         'index', page=posts.next_num) if posts.has_next else None
     prev_url = url_for(
         'index', page=posts.prev_num) if posts.has_prev else None
-    return render_template('home.html', posts=posts.items, next_url=next_url, prev_url=prev_url)
+    count = db.func.count(post_tags).label('ct')
+    tags = (db.session
+            .query(Tag.name, count)
+            .join(post_tags)
+            .group_by(Tag.id)
+            .order_by(count.desc())
+            .limit(5)
+            .all())
+    return render_template('home.html', posts=posts.items, tags=tags, next_url=next_url, prev_url=prev_url)
 
 
 @app.route('/login', methods=['GET', 'POST'])
