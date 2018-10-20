@@ -77,7 +77,6 @@ def profile():
         if image:
             current_user.save_image(image)
         db.session.commit()
-        flash('Profile has been updated!')
         return redirect(url_for('index'))
     elif request.method == 'GET':
         form.name.data = current_user.name
@@ -105,7 +104,6 @@ def post():
             post.save_tags(tags)
         db.session.add(post)
         db.session.commit()
-        flash('Posted!')
         return redirect(url_for('index'))
     return render_template('post.html', form=form, title='Post')
 
@@ -126,7 +124,6 @@ def edit_post(id):
         post.title = form.title.data
         post.body = form.body.data
         db.session.commit()
-        flash('Post has been updated!')
         return redirect(url_for('index', _anchor='p' + str(post.id)))
     elif request.method == 'GET':
         form.title.data = post.title
