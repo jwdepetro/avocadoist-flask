@@ -11,10 +11,10 @@
                 </small>
             </div>
         </div>
-        <div class="row mb-3">
+        <div class="row mb-2">
             <div class="col-12">
                 {% for tag in post.tags %}
-                <a class="btn btn-primary" href="{{url_for('index', tag=tag.name)}}">{{tag.name}}</a>
+                <a class="btn btn-primary my-1" href="{{url_for('index', tag=tag.name)}}">{{tag.name}}</a>
                 {% endfor %}
             </div>
         </div>
