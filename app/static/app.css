@@ -84,11 +84,3 @@ button:focus {
 .card {
     border: none;
 }
-
-.post-tag {
-    color: #e1e8ee;
-    background-color: #9fb199;
-    border-color: #9fb199;
-    border-radius: 2px;
-    padding: 5px;
-}

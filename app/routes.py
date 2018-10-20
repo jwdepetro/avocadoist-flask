@@ -3,7 +3,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from app import app, db
 from app.forms import LoginForm, PostForm, UserForm
-from app.models import User, Post, Tag, PostTag
+from app.models import User, Post, Tag
 
 
 @app.errorhandler(404)
@@ -14,8 +14,12 @@ def page_not_found(e):
 @app.route('/')
 def index():
     page = request.args.get('page', 1, type=int)
-    posts = Post.query.order_by(
-        Post.timestamp.desc()).paginate(page, 50, False)
+    tag = request.args.get('tag', None)
+    if tag:
+        q = Post.query.filter(Post.tags.any(Tag.name == tag))
+    else:
+        q = Post.query
+    posts = q.order_by(Post.timestamp.desc()).paginate(page, 50, False)
     next_url = url_for(
         'index', page=posts.next_num) if posts.has_next else None
     prev_url = url_for(

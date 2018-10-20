@@ -53,6 +53,21 @@ class User(UserMixin, db.Model):
             self.image_name = None
 
 
+post_tags = db.Table(
+    'post_tag',
+    db.Column('post_id', db.Integer, db.ForeignKey('post.id')),
+    db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'))
+)
+
+
+class Tag(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120))
+
+    def __repr__(self):
+        return '<Tag {}>'.format(self.name)
+
+
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120))
@@ -60,7 +75,7 @@ class Post(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     images = db.relationship('PostImage', backref='post', lazy='dynamic')
-    post_tags = db.relationship('PostTag', backref='post', lazy='dynamic')
+    tags = db.relationship('Tag', secondary=post_tags, lazy='dynamic')
 
     def __repr__(self):
         return '<Post {}>'.format(self.title)
@@ -89,14 +104,11 @@ class Post(db.Model):
             if not tag:
                 tag = Tag(name=name)
                 db.session.add(tag)
-            post_tag = PostTag(post=self, tag=tag)
-            db.session.add(post_tag)
-            self.post_tags.append(post_tag)
+            self.tags.append(tag)
 
     def delete_tags(self):
-        for post_tag in self.post_tags:
-            db.session.delete(post_tag)
-        db.session.commit()
+        for tag in self.tags:
+            self.tags.remove(tag)
 
 
 class PostImage(db.Model):
@@ -112,20 +124,3 @@ class PostImage(db.Model):
             return photos.url(self.name)
         else:
             return None
-
-
-class Tag(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120))
-    post_tag = db.relationship('PostTag', backref='tag', lazy='dynamic')
-
-    def __repr__(self):
-        return '<PostTag {}>'.format(self.name)
-
-
-class PostTag(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
-    tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'))
-    # post = db.relationship('Post', backref='post_tag', lazy='dynamic')
-    # tag = db.relationship('Tag', backref='post_tag', lazy='dynamic')
