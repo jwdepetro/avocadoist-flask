@@ -30,7 +30,7 @@ def index():
         'index', page=posts.next_num) if posts.has_next else None
     prev_url = url_for(
         'index', page=posts.prev_num) if posts.has_prev else None
-    count = db.func.count(post_tags).label('ct')
+    count = db.func.count('*').label('ct')
     tags = (db.session
             .query(Tag.name, count)
             .join(post_tags)
