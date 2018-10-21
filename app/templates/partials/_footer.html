@@ -1,11 +1,30 @@
-<footer class="footer sticky-bottom d-flex align-items-center" id="footer">
-    <div class="container d-flex justify-content-center">
-        <div class="row">
-            <a class="footer-link" href="mailto:jwdepetro@gmail.com">&copy; {{ moment().format('Y') }} Jimmy DePetro</a> &nbsp;
-            {% if current_user.is_anonymous %}
+<footer class="footer sticky-bottom d-flex" id="footer">
+    <div class="container text-center">
+        <div class="row my-3">
+            <div class="col-12">
+                <a class="footer-link" href="https://www.instagram.com/the_avocadoist" target="_blank">
+                    <i class="fab fa-instagram"></i>&nbsp;Avocadoist
+                </a>
+                &nbsp;|&nbsp;
+                <a class="footer-link" href="https://www.instagram.com/carlirae__" target="_blank">
+                    <i class="fab fa-instagram"></i>&nbsp;Personal
+                </a>
+                &nbsp;|&nbsp;
+                <a class="footer-link" href="https://www.linkedin.com/in/carli-auran-7a884834/" target="_blank">
+                    <i class="fab fa-linkedin"></i></i>&nbsp;Business
+                </a>
+            </div>
+        </div>
+        <div class="row my-3" id=copyright>
+            <div class="col-12">
+                <a class="footer-link" href="mailto:jwdepetro@gmail.com">&copy; {{ moment().format('Y') }} Jimmy
+                    DePetro</a>
+                &nbsp;
+                {% if current_user.is_anonymous %}
                 &nbsp;| &nbsp;
                 <a class="footer-link" href="{{ url_for('login') }}">Login</a>
-            {% endif %}
+                {% endif %}
+            </div>
         </div>
     </div>
 </footer>
