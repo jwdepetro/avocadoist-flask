@@ -12,6 +12,11 @@ def page_not_found(e):
     return redirect(url_for('index'))
 
 
+@app.context_processor
+def inject_tag():
+    return dict(active_tag=request.args.get('tag', None))
+
+
 @app.route('/')
 def index():
     page = request.args.get('page', 1, type=int)
