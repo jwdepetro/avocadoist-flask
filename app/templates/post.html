@@ -9,7 +9,7 @@
         <h1>Post</h1>
         {% endif %}
         <div class="row justify-content-center">
-            {% if post and post.images %}
+            {% if post and post.images[0] %}
             <div class="col-12 col-md-6">
             {% else %}
             <div class="col-12 col-md-10">
@@ -43,7 +43,7 @@
                     {% endfor %}
                 </div>
             </div>
-            {% if post and post.images %}
+            {% if post and post.images and post.images[0] %}
             <div class="col-12 col-md-6 d-flex align-items-center">
                 {% include 'partials/_images.html' %}
             </div>

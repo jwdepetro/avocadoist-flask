@@ -4,6 +4,7 @@ from werkzeug.urls import url_parse
 from app import app, db
 from app.forms import LoginForm, PostForm, UserForm
 from app.models import User, Post, Tag, post_tags
+from sqlalchemy.orm import load_only
 
 
 @app.errorhandler(404)
@@ -126,8 +127,14 @@ def edit_post(id):
         db.session.commit()
         return redirect(url_for('index', _anchor='p' + str(post.id)))
     elif request.method == 'GET':
+        def map_name(tag):
+            return tag.name
         form.title.data = post.title
         form.body.data = post.body
+        tags = []
+        for tag in post.tags.all():
+            tags.append(tag.name)
+        form.tags.data = ','.join(tags)
     return render_template('post.html', form=form, post=post)
 
 
