@@ -17,7 +17,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     default = db.Column(db.Boolean, default=False)
     name = db.Column(db.String(64))
-    about = db.Column(db.String(360))
+    about = db.Column(db.String(10000000))
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     image_name = db.Column(db.String(120))
@@ -71,7 +71,7 @@ class Tag(db.Model):
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120))
-    body = db.Column(db.String(360))
+    body = db.Column(db.String(10000000))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     images = db.relationship('PostImage', backref='post', lazy='dynamic')

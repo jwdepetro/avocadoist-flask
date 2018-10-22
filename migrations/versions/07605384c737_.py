@@ -1,8 +1,8 @@
-"""recreating entire fucking db again
+"""empty message
 
-Revision ID: 5a9b0bae9298
+Revision ID: 07605384c737
 Revises: 
-Create Date: 2018-10-20 21:25:53.534750
+Create Date: 2018-10-20 22:00:01.387518
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '5a9b0bae9298'
+revision = '07605384c737'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -27,7 +27,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('default', sa.Boolean(), nullable=True),
     sa.Column('name', sa.String(length=64), nullable=True),
-    sa.Column('about', sa.String(length=360), nullable=True),
+    sa.Column('about', sa.String(length=10000000), nullable=True),
     sa.Column('email', sa.String(length=120), nullable=True),
     sa.Column('password_hash', sa.String(length=128), nullable=True),
     sa.Column('image_name', sa.String(length=120), nullable=True),
@@ -37,7 +37,7 @@ def upgrade():
     op.create_table('post',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=120), nullable=True),
-    sa.Column('body', sa.String(length=360), nullable=True),
+    sa.Column('body', sa.String(length=10000000), nullable=True),
     sa.Column('timestamp', sa.DateTime(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
