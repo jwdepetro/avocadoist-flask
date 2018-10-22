@@ -1,2 +1,0 @@
-FLASK_APP=avocadoist.py
-FLASK_DEBUG=true
