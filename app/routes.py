@@ -68,7 +68,7 @@ def logout():
 @app.route('/about-me')
 def about_me():
     user = User.query.filter_by(default=True).first_or_404()
-    return render_template('about_me.html', user=user)
+    return render_template('about_me.html', user=user, title='About Me')
 
 
 @app.route('/profile', methods=['GET', 'POST'])
@@ -88,7 +88,7 @@ def profile():
         form.name.data = current_user.name
         form.email.data = current_user.email
         form.about.data = current_user.about
-    return render_template('profile.html', form=form, title='Profile')
+    return render_template('profile.html', form=form, title='Edit Profile')
 
 
 @app.route('/post', methods=['GET', 'POST'])
@@ -140,7 +140,7 @@ def edit_post(id):
         for tag in post.tags.all():
             tags.append(tag.name)
         form.tags.data = ','.join(tags)
-    return render_template('post.html', form=form, post=post)
+    return render_template('post.html', form=form, post=post, title='Edit Post')
 
 
 @app.route('/post/<id>/delete')
