@@ -82,6 +82,8 @@ def profile():
         image = request.files.get('image')
         if image:
             current_user.save_image(image)
+        if form.password.data:
+            current_user.set_password(form.password.data)
         db.session.commit()
         return redirect(url_for('index'))
     elif request.method == 'GET':
