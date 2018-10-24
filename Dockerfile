@@ -1,11 +1,18 @@
-FROM python:3
-MAINTAINER Jimmy DePetro <jwdepetro@gmail.com>
+FROM python:3-alpine
 
-ENV PYTHONUNBUFFERED 1
-RUN mkdir -p /opt/services/flaskapp/src
-COPY requirements.txt /opt/services/flaskapp/src/
 WORKDIR /opt/services/flaskapp/src
-RUN pip install -r requirements.txt
-COPY . /opt/services/flaskapp/src
+
+COPY requirements.txt .
+
+RUN apk update && \
+    apk add postgresql-libs && \
+    apk add --no-cache bash && \
+    apk add --virtual .build-deps gcc musl-dev postgresql-dev && \
+    python3 -m pip install -r requirements.txt --no-cache-dir && \
+    apk --purge del .build-deps
+
+COPY . .
+
 EXPOSE 5090
+
 CMD ["/bin/bash", "entrypoint.sh"]
