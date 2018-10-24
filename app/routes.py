@@ -85,7 +85,10 @@ def profile():
         if form.password.data:
             current_user.set_password(form.password.data)
         db.session.commit()
-        return redirect(url_for('about_me'))
+        if current_user.default:
+            return redirect(url_for('about_me'))
+        else:
+            return redirect(url_for('index'))
     elif request.method == 'GET':
         form.name.data = current_user.name
         form.email.data = current_user.email
