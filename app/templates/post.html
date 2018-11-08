@@ -41,6 +41,7 @@
                     {% for error in form.body.errors %}
                     <span>{{ error }}</span>
                     {% endfor %}
+                    {{ simplemde.load_id("body") }}
                 </div>
             </div>
             {% if post and post.images and post.images[0] %}

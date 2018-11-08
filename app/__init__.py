@@ -4,6 +4,8 @@ from flask_migrate import Migrate
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
+from flask_simplemde import SimpleMDE
+from flask_misaka import Misaka
 from config import Config
 import os
 
@@ -18,6 +20,10 @@ photos = UploadSet('photos', IMAGES)
 configure_uploads(app, photos)
 patch_request_class(app)
 
+app.config['SIMPLEMDE_JS_IIFE'] = True
+app.config['SIMPLEMDE_USE_CDN'] = True
+SimpleMDE(app)
+Misaka(app)
 
 @app.context_processor
 def override_url_for():

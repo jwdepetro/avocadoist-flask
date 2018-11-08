@@ -18,7 +18,7 @@
                 {% endfor %}
             </div>
         </div>
-        <p style="white-space: pre-wrap;">{{ post.body }}</p>
+        <p id="pb{{ post.id }}" style="white-space: pre-wrap;">{{ post.body|markdown }}</p>
         {% if current_user == post.author %}
         <div class="row">
             <div class="col text-right">

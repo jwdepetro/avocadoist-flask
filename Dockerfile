@@ -5,6 +5,7 @@ WORKDIR /opt/services/flaskapp/src
 COPY requirements.txt .
 
 RUN apk update && \
+    apk add libffi-dev && \
     apk add postgresql-libs && \
     apk add --no-cache bash && \
     apk add --virtual .build-deps gcc musl-dev postgresql-dev && \
