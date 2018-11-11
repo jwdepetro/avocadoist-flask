@@ -5,7 +5,8 @@ from datetime import datetime
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.datastructures import FileStorage
-from app import app, db, login, photos, upload_file, delete_file
+from app import app, db, login
+from app.images import create_image, delete_image, image_url
 
 
 @login.user_loader
@@ -33,20 +34,17 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def image_url(self):
-        if self.image_name:
-            return '{}{}'.format(app.config['S3_LOCATION'], self.image_name)
-        else:
-            return None
+        return image_url(self.image_name)
 
     def save_image(self, image):
         if self.image_name:
             self.delete_image()
-        name = upload_file(image)
+        name = create_image(image)
         self.image_name = name
 
     def delete_image(self):
         if self.image_name:
-            if delete_file(self.image_name):
+            if delete_image(self.image_name):
                 self.image_name = None
 
 
@@ -79,7 +77,7 @@ class Post(db.Model):
 
     def save_images(self, images):
         for file in images:
-            name = upload_file(file)
+            name = create_image(file)
             i = PostImage(post=self, name=name)
             db.session.add(i)
             self.images.append(i)
@@ -87,7 +85,7 @@ class Post(db.Model):
     def delete_images(self):
         if self.images:
             for image in self.images:
-                if delete_file(image.name):
+                if delete_image(image.name):
                     db.session.delete(image)
                     db.session.commit()
 
@@ -114,7 +112,4 @@ class PostImage(db.Model):
         return '<PostImage {}>'.format(self.name)
 
     def url(self):
-        if self.name:
-            return '{}{}'.format(app.config['S3_LOCATION'], self.name)
-        else:
-            return None
+        return image_url(self.name)
