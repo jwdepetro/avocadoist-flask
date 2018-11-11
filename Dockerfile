@@ -5,6 +5,7 @@ WORKDIR /opt/services/flaskapp/src
 COPY requirements.txt .
 
 RUN apk update && \
+    apk add jpeg-dev zlib-dev && \
     apk add libffi-dev && \
     apk add postgresql-libs && \
     apk add --no-cache bash && \

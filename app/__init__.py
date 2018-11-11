@@ -8,6 +8,8 @@ from flask_simplemde import SimpleMDE
 from flask_misaka import Misaka
 from werkzeug.utils import secure_filename
 from config import Config
+from io import BytesIO, StringIO
+from PIL import Image
 import os
 import boto3
 import uuid
@@ -57,24 +59,34 @@ def allowed_file(filename):
 
 
 def upload_file(file):
-    try:
-        if file and allowed_file(file.filename):
-            bucket_name = app.config['S3_BUCKET']
-            file.filename = secure_filename(file.filename)
-            filename = str(uuid.uuid4())
-            s3.upload_fileobj(
-                file,
-                bucket_name,
-                filename,
-                ExtraArgs={
-                    'ACL': 'public-read',
-                    'ContentType': file.content_type
-                }
-            )
-            return filename
-        return None
-    except Exception as e:
-        return None
+    # try:
+    if file and allowed_file(file.filename):
+        bucket_name = app.config['S3_BUCKET']
+        file.filename = secure_filename(file.filename)
+        key_name = str(uuid.uuid4())
+
+        img = Image.open(file)
+        wpercent = (600 / float(img.size[0]))
+        hsize = int((float(img.size[1]) * float(wpercent)))
+        img = img.resize((600, hsize), Image.ANTIALIAS)
+        buffer = BytesIO()
+        img.save(buffer, 'PNG')
+        buffer.seek(0)
+
+        s3.upload_fileobj(
+            buffer,
+            bucket_name,
+            key_name,
+            ExtraArgs={
+                'ACL': 'public-read',
+                # 'ContentType': file.content_type
+            }
+        )
+        return key_name
+    return None
+    # except Exception as e:
+    # print(str(e))
+    # return None
 
 
 def delete_file(name):
