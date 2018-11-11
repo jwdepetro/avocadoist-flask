@@ -77,4 +77,15 @@ def upload_file(file):
         return None
 
 
+def delete_file(name):
+    try:
+        response = s3.delete_object(
+            Bucket=app.config['S3_BUCKET'],
+            Key=name
+        )
+        return 'DeleteMarker' in response and response['DeleteMarker'] == True
+    except Exception as e:
+        return False
+
+
 from app import routes, models

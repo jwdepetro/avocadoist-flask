@@ -5,7 +5,7 @@ from datetime import datetime
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.datastructures import FileStorage
-from app import app, db, login, photos, upload_file
+from app import app, db, login, photos, upload_file, delete_file
 
 
 @login.user_loader
@@ -88,10 +88,9 @@ class Post(db.Model):
     def delete_images(self):
         if self.images:
             for image in self.images:
-                file_path = photos.path(image.name)
-                os.remove(file_path)
-                db.session.delete(image)
-                db.session.commit()
+                if delete_file(image.name):
+                    db.session.delete(image)
+                    db.session.commit()
 
     def save_tags(self, tag_names):
         self.delete_tags()
