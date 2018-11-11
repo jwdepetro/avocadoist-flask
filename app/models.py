@@ -34,7 +34,7 @@ class User(UserMixin, db.Model):
 
     def image_url(self):
         if self.image_name:
-            return photos.url(self.image_name)
+            return '{}{}'.format(app.config['S3_LOCATION'], self.image_name)
         else:
             return None
 
@@ -46,9 +46,8 @@ class User(UserMixin, db.Model):
 
     def delete_image(self):
         if self.image_name:
-            file_path = photos.path(self.image_name)
-            os.remove(file_path)
-            self.image_name = None
+            if delete_file(self.image_name):
+                self.image_name = None
 
 
 post_tags = db.Table(
