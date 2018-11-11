@@ -1,10 +1,15 @@
 <nav class="navbar navbar-expand-lg fixed-top" id="header">
-    <a class="navbar-brand" href="{{ url_for('index') }}" id="header-title">
-        The Avocadoist
-        {% if active_tag %}
-        |&nbsp;{{active_tag}}
-        {% endif %}
-    </a>
+    <div>
+        <a class="navbar-brand" href="{{ url_for('index') }}" id="header-title">
+            The Avocadoist
+            {% if active_tag %}
+            |&nbsp;{{active_tag}}
+            {% endif %}
+        </a>
+        <p id="header-subtitle">
+            Be Kind. Live Simply. Adventure Often.
+        </p>
+    </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
         aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-bars header-link"></i>
@@ -43,9 +48,11 @@
 
     function scrollFunction() {
         if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-            document.getElementById("header-title").classList.add('header-small')
+            document.getElementById("header-title").classList.add('header-small');
+            document.getElementById("header-subtitle").classList.add('header-small');
         } else {
-            document.getElementById("header-title").classList.remove('header-small')
+            document.getElementById("header-title").classList.remove('header-small');
+            document.getElementById("header-subtitle").classList.remove('header-small');
         }
     }
 </script>
