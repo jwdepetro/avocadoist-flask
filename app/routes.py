@@ -116,10 +116,16 @@ def post():
         db.session.add(post)
         db.session.commit()
         return redirect(url_for('index'))
-    return render_template('post.html', form=form, title='Post')
+    return render_template('edit_post.html', form=form, title='Post')
 
 
-@app.route('/post/<id>', methods=['GET', 'POST'])
+@app.route('/post/<id>')
+def view_post(id):
+    post = Post.query.filter_by(id=id).first_or_404()
+    return render_template('view_post.html', post=post)
+
+
+@app.route('/post/<id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_post(id):
     post = Post.query.filter_by(id=id).first_or_404()
@@ -135,7 +141,7 @@ def edit_post(id):
         post.title = form.title.data
         post.body = form.body.data
         db.session.commit()
-        return redirect(url_for('index', _anchor='p' + str(post.id)))
+        return redirect(url_for('view_post', id=post.id))
     elif request.method == 'GET':
         def map_name(tag):
             return tag.name
@@ -145,7 +151,7 @@ def edit_post(id):
         for tag in post.tags.all():
             tags.append(tag.name)
         form.tags.data = ','.join(tags)
-    return render_template('post.html', form=form, post=post, title='Edit Post')
+    return render_template('edit_post.html', form=form, post=post, title='Edit Post')
 
 
 @app.route('/post/<id>/delete')
