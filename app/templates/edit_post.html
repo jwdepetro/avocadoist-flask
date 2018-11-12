@@ -9,61 +9,63 @@
         <h1>Post</h1>
         {% endif %}
         <div class="row justify-content-center">
+            {% include 'partials/_errors.html' %}
+        </div>
+        <div class="row justify-content-center">
             {% if post and post.images[0] %}
             <div class="col-12 col-md-6">
-            {% else %}
-            <div class="col-12 col-md-10">
-            {% endif %}
-                <div class="form-group">
-                    {{ form.title.label }}
-                    {{ form.title(size=32, class="form-control") }}
-                    {% for error in form.title.errors %}
-                    <span>{{ error }}</span>
-                    {% endfor %}
-                </div>
-                <div class="form-group">
+                {% else %}
+                <div class="col-12 col-md-10">
+                    {% endif %}
+                    <div class="form-group">
+                        {{ form.title.label }}
+                        {{ form.title(size=32, class="form-control") }}
+                        {% for error in form.title.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
                         {{ form.tags.label }}
                         {{ form.tags(class="form-control", **{'data-role': 'tagsinput'}) }}
                         {% for error in form.tags.errors %}
                         <span>{{ error }}</span>
                         {% endfor %}
                     </div>
-                <div class="form-group">
-                    {{ form.images.label }}
-                    {{ form.images(class="form-control-file", multiple="") }}
-                    {% for error in form.images.errors %}
-                    <span>{{ error }}</span>
-                    {% endfor %}
+                    <div class="form-group">
+                        {{ form.images.label }}
+                        {{ form.images(class="form-control-file", multiple="") }}
+                        {% for error in form.images.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.body.label }}
+                        {{ form.body(class="form-control", rows=20) }}
+                        {% for error in form.body.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                        {{ simplemde.load_id("body") }}
+                    </div>
                 </div>
-                <div class="form-group">
-                    {{ form.body.label }}
-                    {{ form.body(class="form-control", rows=20) }}
-                    {% for error in form.body.errors %}
-                    <span>{{ error }}</span>
-                    {% endfor %}
-                    {{ simplemde.load_id("body") }}
+                {% if post and post.images and post.images[0] %}
+                <div class="col-12 col-md-6 d-flex align-items-center">
+                    {% include 'partials/_images.html' %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="row justify-content-center">
+                {% if post and post.id %}
+                <div class="col-12 col-md-4 my-2">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#delete-modal">
+                        Delete
+                    </button>
+                </div>
+                {% endif %}
+                <div class="col-12 col-md-4 my-2">
+                    {{ form.submit(class="btn btn-primary btn-block") }}
                 </div>
             </div>
-            {% if post and post.images and post.images[0] %}
-            <div class="col-12 col-md-6 d-flex align-items-center">
-                {% include 'partials/_images.html' %}
-            </div>
-            {% endif %}
-        </div>
-        <div class="row justify-content-center">
-            {% if post and post.id %}
-            <div class="col-12 col-md-4 my-2">
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#delete-modal">
-                    Delete
-                </button>
-            </div>
-            {% endif %}
-            <div class="col-12 col-md-4 my-2">
-                {{ form.submit(class="btn btn-primary btn-block") }}
-            </div>
-            {% include 'partials/_errors.html' %}
-        </div>
     </form>
 </div>
 
