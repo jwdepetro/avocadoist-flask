@@ -127,7 +127,8 @@ def post():
 @app.route('/post/<string:path>')
 def view_post(path):
     title = path.replace('-', ' ')
-    post = Post.query.filter(func.lower(Post.title) == func.lower(title)).first_or_404()
+    post = Post.query.filter(func.lower(Post.title) ==
+                             func.lower(title)).first_or_404()
     return render_template('view_post.html', post=post)
 
 
