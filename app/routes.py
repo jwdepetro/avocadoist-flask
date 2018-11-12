@@ -110,7 +110,9 @@ def post():
         post = Post(
             title=form.title.data,
             body=form.body.data,
-            author=current_user
+            author=current_user,
+            meta_title=form.meta_title.data,
+            meta_description=form.meta_description.data
         )
         images = request.files.getlist('images')
         if images:
@@ -147,6 +149,8 @@ def edit_post(id):
             post.save_tags(tags)
         post.title = form.title.data
         post.body = form.body.data
+        post.meta_title = form.meta_title.data
+        post.meta_description = form.meta_description.data
         db.session.commit()
         return redirect(url_for('view_post', path=post.path))
     elif request.method == 'GET':
@@ -154,6 +158,8 @@ def edit_post(id):
             return tag.name
         form.title.data = post.title
         form.body.data = post.body
+        form.meta_title.data = post.meta_title
+        form.meta_description.data = post.meta_description
         tags = []
         for tag in post.tags.all():
             tags.append(tag.name)

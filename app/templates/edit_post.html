@@ -46,6 +46,20 @@
                         {% endfor %}
                         {{ simplemde.load_id("body") }}
                     </div>
+                    <div class="form-group">
+                        {{ form.meta_title.label }}
+                        {{ form.meta_title(size=75, class="form-control") }}
+                        {% for error in form.meta_title.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.meta_description.label }}
+                        {{ form.meta_description(size=200, class="form-control") }}
+                        {% for error in form.meta_description.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
                 </div>
                 {% if post and post.images and post.images[0] %}
                 <div class="col-12 col-md-6 d-flex align-items-center">

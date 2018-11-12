@@ -17,6 +17,8 @@ class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     body = TextAreaField('Body', validators=[DataRequired()])
     images = FileField(validators=[FileAllowed(photos, u'Images only!')])
+    meta_title = StringField('Meta Title', validators=[DataRequired()])
+    meta_description = TextAreaField('Meta Description', validators=[DataRequired()])
     tags = StringField('Tags')
     submit = SubmitField('Post')
 
