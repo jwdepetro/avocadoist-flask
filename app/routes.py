@@ -6,6 +6,7 @@ from app.forms import LoginForm, PostForm, UserForm
 from app.models import User, Post, Tag, post_tags
 from sqlalchemy import func
 from sqlalchemy.orm import load_only
+from datetime import datetime
 
 
 @app.errorhandler(404)
@@ -112,7 +113,8 @@ def post():
             body=form.body.data,
             author=current_user,
             meta_title=form.meta_title.data,
-            meta_description=form.meta_description.data
+            meta_description=form.meta_description.data,
+            timestamp=form.timestamp.data
         )
         images = request.files.getlist('images')
         if images:
@@ -151,6 +153,7 @@ def edit_post(id):
         post.body = form.body.data
         post.meta_title = form.meta_title.data
         post.meta_description = form.meta_description.data
+        post.timestamp = form.timestamp.data
         db.session.commit()
         return redirect(url_for('view_post', path=post.path))
     elif request.method == 'GET':
@@ -160,6 +163,7 @@ def edit_post(id):
         form.body.data = post.body
         form.meta_title.data = post.meta_title
         form.meta_description.data = post.meta_description
+        form.timestamp.data = post.timestamp
         tags = []
         for tag in post.tags.all():
             tags.append(tag.name)
