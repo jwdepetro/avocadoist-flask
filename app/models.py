@@ -72,6 +72,10 @@ class Post(db.Model):
     images = db.relationship('PostImage', backref='post', lazy='dynamic')
     tags = db.relationship('Tag', secondary=post_tags, lazy='dynamic')
 
+    @property
+    def path(self):
+        return self.title.replace(' ', '-').lower()
+
     def __repr__(self):
         return '<Post {}>'.format(self.title)
 

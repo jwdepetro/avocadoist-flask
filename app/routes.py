@@ -4,6 +4,7 @@ from werkzeug.urls import url_parse
 from app import app, db
 from app.forms import LoginForm, PostForm, UserForm
 from app.models import User, Post, Tag, post_tags
+from sqlalchemy import func
 from sqlalchemy.orm import load_only
 
 
@@ -123,9 +124,10 @@ def post():
     return render_template('edit_post.html', form=form, title='Post')
 
 
-@app.route('/post/<id>')
-def view_post(id):
-    post = Post.query.filter_by(id=id).first_or_404()
+@app.route('/post/<string:path>')
+def view_post(path):
+    title = path.replace('-', ' ')
+    post = Post.query.filter(func.lower(Post.title) == func.lower(title)).first_or_404()
     return render_template('view_post.html', post=post)
 
 
@@ -145,7 +147,7 @@ def edit_post(id):
         post.title = form.title.data
         post.body = form.body.data
         db.session.commit()
-        return redirect(url_for('view_post', id=post.id))
+        return redirect(url_for('view_post', path=post.path))
     elif request.method == 'GET':
         def map_name(tag):
             return tag.name
