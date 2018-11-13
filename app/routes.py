@@ -40,7 +40,12 @@ def index():
             .order_by(count.desc())
             .limit(5)
             .all())
-    return render_template('home.html', posts=posts.items, tags=tags, next_url=next_url, prev_url=prev_url)
+    data = []
+    for post in posts.items:
+        if len(post.body) > 200:
+            post.body = post.body[0:200] + '...'
+        data.append(post)
+    return render_template('home.html', posts=data, tags=tags, next_url=next_url, prev_url=prev_url)
 
 
 @app.route('/login', methods=['GET', 'POST'])
