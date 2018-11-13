@@ -105,10 +105,6 @@ button:focus {
     border: none;
 }
 
-.card-title a, .card-title a:hover {
-    color: inherit;
-}
-
 .post-more-link, .post-more-link:hover {
     color: #7a8875
 }
