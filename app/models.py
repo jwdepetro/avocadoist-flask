@@ -73,6 +73,7 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     images = db.relationship('PostImage', backref='post', lazy='dynamic')
     tags = db.relationship('Tag', secondary=post_tags, lazy='dynamic')
+    comments = db.relationship('PostComment', backref='post', lazy='dynamic')
 
     @property
     def path(self):
@@ -119,3 +120,13 @@ class PostImage(db.Model):
 
     def url(self):
         return image_url(self.name)
+
+
+class PostComment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+    name = db.Column(db.String(120))
+    comment = db.Column(db.String(100000))
+
+    def __repr__(self):
+        '<PostComment {}>'.format(self.comment)
