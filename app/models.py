@@ -127,6 +127,7 @@ class PostComment(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
     name = db.Column(db.String(120))
     comment = db.Column(db.String(100000))
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
     def __repr__(self):
         '<PostComment {}>'.format(self.comment)

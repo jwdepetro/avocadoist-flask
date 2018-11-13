@@ -2,8 +2,8 @@ from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from app import app, db
-from app.forms import LoginForm, PostForm, UserForm
-from app.models import User, Post, Tag, post_tags
+from app.forms import LoginForm, PostForm, PostCommentForm, UserForm
+from app.models import User, Post, PostComment, Tag, post_tags
 from sqlalchemy import func
 from sqlalchemy.orm import load_only
 from datetime import datetime
@@ -135,10 +135,16 @@ def post():
 
 @app.route('/post/<string:path>')
 def view_post(path):
+    page = request.args.get('page', 1, type=int)
     title = path.replace('-', ' ')
-    post = Post.query.filter(func.lower(Post.title) ==
-                             func.lower(title)).first_or_404()
-    return render_template('view_post.html', post=post)
+    post = (Post.query
+            .filter(func.lower(Post.title) == func.lower(title)).first_or_404())
+    comments = (PostComment.query
+                .filter(PostComment.post_id == post.id)
+                .order_by(PostComment.timestamp.desc())
+                .paginate(page, 5, False))
+    form = PostCommentForm()
+    return render_template('view_post.html', post=post, comments=comments.items, form=form)
 
 
 @app.route('/post/<id>/edit', methods=['GET', 'POST'])
@@ -185,3 +191,24 @@ def delete_post(id):
     db.session.delete(post)
     db.session.commit()
     return redirect('index')
+
+
+@app.route('/post/<id>/comment', methods=['POST'])
+def comment_post(id):
+    post = Post.query.filter_by(id=id).first_or_404()
+    form = PostCommentForm()
+    if form.validate_on_submit():
+        post_comment = PostComment(
+            post=post,
+            name=form.name.data,
+            comment=form.comment.data
+        )
+        db.session.add(post_comment)
+        db.session.commit()
+        return redirect(url_for('view_post', path=post.path, _anchor='comments'))
+    page = request.args.get('page', 1, type=int)
+    comments = (PostComment.query
+                .filter(PostComment.post_id == post.id)
+                .order_by(PostComment.timestamp.desc())
+                .paginate(page, 5, False))
+    return render_template('view_post.html', post=post, comments=comments.items, form=form)

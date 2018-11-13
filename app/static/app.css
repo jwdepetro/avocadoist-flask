@@ -112,3 +112,7 @@ button:focus {
 .post-more-link, .post-more-link:hover {
     color: #7a8875
 }
+
+.post-comment {
+    font-size: .7rem;
+}
