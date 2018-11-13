@@ -5,6 +5,9 @@
         {{ form.hidden_tag() }}
         {% if post and post.id %}
         <h1>Edit Post</h1>
+        {% if post.comments.count() %}
+        <a href="{{url_for('edit_comments', id=post.id)}}">Edit Comments</a>
+        {% endif %}
         {% else %}
         <h1>Post</h1>
         {% endif %}

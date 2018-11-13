@@ -182,6 +182,18 @@ def edit_post(id):
     return render_template('edit_post.html', form=form, post=post, title='Edit Post')
 
 
+@app.route('/post/<id>/comments')
+@login_required
+def edit_comments(id):
+    page = request.args.get('page', 1, type=int)
+    post = Post.query.filter_by(id=id).first_or_404()
+    comments = (PostComment.query
+                .filter(PostComment.post_id == id)
+                .order_by(PostComment.timestamp.desc())
+                .paginate(page, 10, False))
+    return render_template('edit_comments.html', post=post, comments=comments.items, title='Edit Comments')
+
+
 @app.route('/post/<id>/delete')
 @login_required
 def delete_post(id):
@@ -191,6 +203,15 @@ def delete_post(id):
     db.session.delete(post)
     db.session.commit()
     return redirect('index')
+
+
+@app.route('/post/<post_id>/comment/<comment_id>/delete')
+@login_required
+def delete_comment(post_id, comment_id):
+    comment = PostComment.query.filter_by(id=comment_id).first_or_404()
+    db.session.delete(comment)
+    db.session.commit()
+    return redirect(url_for('edit_comments', id=post_id))
 
 
 @app.route('/post/<id>/comment', methods=['POST'])
