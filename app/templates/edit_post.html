@@ -1,113 +1,136 @@
 {% extends "index.html" %}
 {% block content %}
-<div class="container">
-    <form action="" method="POST" enctype="multipart/form-data" novalidate>
-        {{ form.hidden_tag() }}
-        {% if post and post.id %}
-        <h1>Edit Post</h1>
-        {% if post.comments.count() %}
-        <a href="{{url_for('edit_comments', id=post.id)}}">Edit Comments</a>
-        {% endif %}
-        {% else %}
-        <h1>Post</h1>
-        {% endif %}
-        <div class="row justify-content-center">
-            {% include 'partials/_errors.html' %}
-        </div>
-        <div class="row justify-content-center">
-            {% if post and post.images[0] %}
-            <div class="col-12 col-md-6">
-                {% else %}
-                <div class="col-12 col-md-10">
-                    {% endif %}
-                    <div class="form-group">
-                        {{ form.title.label }}
-                        {{ form.title(size=32, class="form-control") }}
-                        {% for error in form.title.errors %}
-                        <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        {{ form.timestamp.label }}
-                        {{ form.timestamp(class="form-control") }}
-                        {% for error in form.timestamp.errors %}
-                        <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        {{ form.tags.label }}
-                        {{ form.tags(class="form-control", **{'data-role': 'tagsinput'}) }}
-                        {% for error in form.tags.errors %}
-                        <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        {{ form.images.label }}
-                        {{ form.images(class="form-control-file", multiple="") }}
-                        {% for error in form.images.errors %}
-                        <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        {{ form.body.label }}
-                        {{ form.body(class="form-control", rows=20) }}
-                        {% for error in form.body.errors %}
-                        <span>{{ error }}</span>
-                        {% endfor %}
-                        {{ simplemde.load_id("body") }}
-                    </div>
-                    <div class="form-group">
-                        {{ form.meta_title.label }}
-                        {{ form.meta_title(size=75, class="form-control") }}
-                        {% for error in form.meta_title.errors %}
-                        <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        {{ form.meta_description.label }}
-                        {{ form.meta_description(size=200, class="form-control") }}
-                        {% for error in form.meta_description.errors %}
-                        <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                </div>
-                {% if post and post.images and post.images[0] %}
-                <div class="col-12 col-md-6 d-flex align-items-center">
-                    {% include 'partials/_images.html' %}
-                </div>
+    <div class="container">
+        <form action="" method="POST" enctype="multipart/form-data" novalidate>
+            {{ form.hidden_tag() }}
+
+            {% if post and post.id %}
+                <h1>Edit Post</h1>
+                {% if post.comments.count() %}
+                    <a href="{{ url_for('edit_comments', id=post.id) }}">Edit Comments</a>
                 {% endif %}
-            </div>
+            {% else %}
+                <h1>Post</h1>
+            {% endif %}
             <div class="row justify-content-center">
-                {% if post and post.id %}
+                {% include 'partials/_errors.html' %}
+            </div>
+
+            <!-- Pills -->
+            <ul class="nav nav-pills mb-3" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-details" role="tab"
+                       aria-controls="pills-details" aria-selected="true">Details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-images" role="tab"
+                       aria-controls="pills-images" aria-selected="false">Images</a>
+                </li>
+            </ul>
+
+            <!-- Pills Content -->
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="pills-details" role="tabpanel"
+                     aria-labelledby="pills-home-tab">
+                    <div class="row justify-content-center">
+
+                        <div class="col-12">
+
+                            <div class="form-group">
+                                {{ form.title.label }}
+                                {{ form.title(size=32, class="form-control") }}
+                                {% for error in form.title.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.timestamp.label }}
+                                {{ form.timestamp(class="form-control") }}
+                                {% for error in form.timestamp.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.tags.label }}
+                                {{ form.tags(class="form-control", **{'data-role': 'tagsinput'}) }}
+                                {% for error in form.tags.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.images.label }}
+                                {{ form.images(class="form-control-file", multiple="") }}
+                                {% for error in form.images.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.body.label }}
+                                {{ form.body(class="form-control", rows=20) }}
+                                {% for error in form.body.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                                {{ simplemde.load_id("body") }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.meta_title.label }}
+                                {{ form.meta_title(size=75, class="form-control") }}
+                                {% for error in form.meta_title.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.meta_description.label }}
+                                {{ form.meta_description(size=200, class="form-control") }}
+                                {% for error in form.meta_description.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-images" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-12 d-flex align-items-center">
+                        {% include 'partials/_images.html' %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+
                 <div class="col-12 col-md-4 my-2">
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#delete-modal">
+                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal"
+                            data-target="#delete-modal">
                         Delete
                     </button>
                 </div>
-                {% endif %}
+
                 <div class="col-12 col-md-4 my-2">
                     {{ form.submit(class="btn btn-primary btn-block") }}
                 </div>
             </div>
-    </form>
-</div>
 
-<!-- Modal -->
-{% if post and post.id %}
-<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="mt-3 modal-header justify-content-center" style="border:none;">
-                <h5 class="modal-title">Are you sure you want to delete this post?</h5>
-            </div>
-            <div class="modal-footer" style="border:none; color:white;">
-                <a class="m-1 btn btn-block btn-primary" data-dismiss="modal">Cancel</a>
-                <a class="m-1 btn btn-block btn-danger" href="{{url_for('delete_post', id=post.id)}}">Delete</a>
+        </form>
+    </div>
+
+    <!-- Modal -->
+    {% if post and post.id %}
+        <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="mt-3 modal-header justify-content-center" style="border:none;">
+                        <h5 class="modal-title">Are you sure you want to delete this post?</h5>
+                    </div>
+                    <div class="modal-footer" style="border:none; color:white;">
+                        <a class="m-1 btn btn-block btn-primary" data-dismiss="modal">Cancel</a>
+                        <a class="m-1 btn btn-block btn-danger"
+                           href="{{ url_for('delete_post', id=post.id) }}">Delete</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-{% endif %}
+    {% endif %}
 
 {% endblock %}
