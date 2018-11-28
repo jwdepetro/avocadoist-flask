@@ -107,7 +107,6 @@ def profile():
 @login_required
 def post():
     form = PostForm()
-    print(form.tags.data)
     if form.validate_on_submit():
         existing = Post.query.filter_by(title=form.title.data).first()
         if existing is not None:
